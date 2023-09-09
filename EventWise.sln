@@ -5,6 +5,8 @@ VisualStudioVersion = 17.7.34024.191
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventWise.Api", "EventWise.Api\EventWise.Api.csproj", "{4375EA73-D7C8-4909-8BF9-607E696DA770}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EventWise.Api.Tests", "EventWise.Api.Tests\EventWise.Api.Tests.csproj", "{6900DC7D-A392-449C-A1FB-2F6A83A4D0A5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{4375EA73-D7C8-4909-8BF9-607E696DA770}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4375EA73-D7C8-4909-8BF9-607E696DA770}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4375EA73-D7C8-4909-8BF9-607E696DA770}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6900DC7D-A392-449C-A1FB-2F6A83A4D0A5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6900DC7D-A392-449C-A1FB-2F6A83A4D0A5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6900DC7D-A392-449C-A1FB-2F6A83A4D0A5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6900DC7D-A392-449C-A1FB-2F6A83A4D0A5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
