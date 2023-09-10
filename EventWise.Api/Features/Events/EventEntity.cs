@@ -1,4 +1,6 @@
-﻿namespace EventWise.Api.Features.Events;
+﻿using Microsoft.AspNetCore.Identity;
+
+namespace EventWise.Api.Features.Events;
 
 public sealed class EventEntity
 {
@@ -19,4 +21,9 @@ public sealed class EventParticipant
     public required int EventId { get; set; }
     public required EventEntity Event { get; set; }
     public required bool IsHost { get; set; }
+}
+
+public sealed class AppUser : IdentityUser
+{
+    public required List<EventParticipant> Events { get; set; }
 }
