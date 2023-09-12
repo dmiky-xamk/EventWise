@@ -1,5 +1,4 @@
-﻿using EventWise.Api.Features.Events;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace EventWise.Api;
