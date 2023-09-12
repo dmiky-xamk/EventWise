@@ -1,4 +1,5 @@
 using EventWise.Api;
+using EventWise.Api.Persistence;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -25,6 +26,11 @@ builder.Services
     .AddEntityFrameworkStores<AppDbContext>()
     .AddApiEndpoints();
 
+builder.Services.AddMediatR(cfg 
+    => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
+
+builder.Services.AddExceptionHandler<ExceptionHandler>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -32,7 +38,11 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+
+    app.InitializeDb();
 }
+
+app.UseExceptionHandler(opt => { });
 
 app.UseHttpsRedirection();
 
