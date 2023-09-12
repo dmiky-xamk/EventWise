@@ -10,4 +10,15 @@ public sealed class AppDbContext : IdentityDbContext<AppUser>
     { }
     
     public required DbSet<EventEntity> Events { get; set; }
+    
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        base.OnModelCreating(modelBuilder);
+
+        modelBuilder.Entity<EventEntity>()
+            .HasKey(x => x.EventId);
+        
+        modelBuilder.Entity<EventParticipantEntity>()
+            .HasKey(x => new { x.AppUserId, x.EventId });
+    }
 }
