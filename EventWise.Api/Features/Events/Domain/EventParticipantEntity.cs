@@ -1,5 +1,8 @@
-﻿namespace EventWise.Api.Features.Events.Domain;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
+namespace EventWise.Api.Features.Events.Domain;
+
+[Table("EventParticipant")]
 public sealed class EventParticipantEntity
 {
     public required string AppUserId { get; set; }
