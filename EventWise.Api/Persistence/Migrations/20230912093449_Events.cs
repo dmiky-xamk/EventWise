@@ -1,9 +1,8 @@
-﻿using System;
+﻿#nullable disable
+
 using Microsoft.EntityFrameworkCore.Migrations;
 
-#nullable disable
-
-namespace EventWise.Api.Migrations
+namespace EventWise.Api.Persistence.Migrations
 {
     /// <inheritdoc />
     public partial class Events : Migration
