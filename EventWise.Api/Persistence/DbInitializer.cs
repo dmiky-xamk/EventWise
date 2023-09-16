@@ -62,6 +62,29 @@ public static class DbInitializer
                         IsHost = false
                     }
                 }
+            },
+            new()
+            {
+                Name = "Event 2",
+                Description = "Event 2 Description",
+                Address = "Event 2 Address",
+                City = "Event 2 City",
+                StartDate = DateTime.Today.AddDays(7),
+                EndDate = DateTime.Today.AddDays(8),
+                Participants = new List<EventParticipantEntity>
+                {
+                    new()
+                    {
+                        AppUser = users[1],
+                        IsHost = true
+                    },
+                    new()
+                    {
+                        AppUser = users[0],
+                        IsHost = false
+                    }
+                }
+                
             }
         };
 
