@@ -1,5 +1,6 @@
 using EventWise.Api;
 using EventWise.Api.Persistence;
+using FluentValidation;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +31,10 @@ builder.Services.AddMediatR(cfg
     => cfg.RegisterServicesFromAssembly(typeof(Program).Assembly));
 
 builder.Services.AddExceptionHandler<ExceptionHandler>();
+
+builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddValidatorsFromAssembly(typeof(Program).Assembly);
 
 var app = builder.Build();
 
