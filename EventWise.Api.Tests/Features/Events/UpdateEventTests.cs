@@ -31,7 +31,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
     {
         // Arrange
         await using var context = TestDbFixture.CreateContextWithTransaction();
-        var user = CreateUser();
+        var user = TestHelpers.CreateUser(_fixture, _mockUserManager);
         var eventEntity = TestHelpers.CreateEventAsHost(_fixture, context, user);
         var expected = _fixture.Build<UpdateEventRequest>()
             .With(x => x.StartDate, DateTime.Now.AddDays(1))
@@ -56,7 +56,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
     {
         // Arrange
         await using var context = TestDbFixture.CreateContext();
-        CreateUser();
+        TestHelpers.CreateUser(_fixture, _mockUserManager);
         var expected = _fixture.Build<UpdateEventRequest>()
             .With(x => x.StartDate, DateTime.Now.AddDays(1))
             .With(x => x.EndDate, DateTime.Now.AddDays(2))
@@ -78,7 +78,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
     {
         // Arrange
         await using var context = TestDbFixture.CreateContext();
-        var user = CreateUser();
+        var user = TestHelpers.CreateUser(_fixture, _mockUserManager);
         var eventEntity = TestHelpers.CreateEventAsParticipant(_fixture, context, user);
         var request = _fixture.Build<UpdateEventRequest>()
             .With(x => x.StartDate, DateTime.Now.AddDays(1))
@@ -100,7 +100,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
     {
         // Arrange
         await using var context = TestDbFixture.CreateContext();
-        CreateUser();
+        TestHelpers.CreateUser(_fixture, _mockUserManager);
         var request = _fixture.Build<UpdateEventRequest>()
             .With(x => x.Name, string.Empty)
             .Create();
@@ -114,13 +114,4 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
         // Assert
         actual.Value.Should().BeOfType<ValidationResult>();
     }
-    
-    private AppUser CreateUser()
-    {
-        var user = _fixture.Create<AppUser>();
-        _mockUserManager.FindByIdAsync(Arg.Any<string>()).Returns(user);
-
-        return user;
-    }
-
 }

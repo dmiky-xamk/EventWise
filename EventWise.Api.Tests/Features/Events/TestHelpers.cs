@@ -27,10 +27,13 @@ public static class TestHelpers
             Substitute.For<ILogger<UserManager<AppUser>>>());
     }
 
-    // public static async Task<string> RunAsUserAsync(string userName, string password)
-    // {
-    //     
-    // }
+    public static AppUser CreateUser(IFixture fixture, UserManager<AppUser> userManager)
+    {
+        var user = fixture.Create<AppUser>();
+        userManager.FindByIdAsync(Arg.Any<string>()).Returns(user);
+
+        return user;
+    }
 
     public static EventEntity CreateEventAsHost(this IFixture fixture, AppUser user)
         => fixture.CreateEventWith(user, true);
@@ -62,6 +65,7 @@ public static class TestHelpers
             {
                 new() { AppUser = user, IsHost = isHost }
             })
+            .With(x => x.IsCancelled, false)
             .Create(); 
     
     public static Task AddAndSaveEvent(this AppDbContext context, EventEntity eventEntity)
