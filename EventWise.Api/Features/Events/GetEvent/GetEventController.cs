@@ -15,12 +15,12 @@ public class GetEventController : ControllerBase
     }
 
     [HttpGet("{publicId}")]
-    public async Task<ActionResult<GetEventResponse>> GetEvent(string publicId, CancellationToken cancellationToken)
+    public async Task<IActionResult> GetEvent(string publicId, CancellationToken cancellationToken)
     {
         var result = await _sender.Send(new GetEvent.Query(publicId), cancellationToken);
 
-        return result.Match<ActionResult<GetEventResponse>>(
-            eventResponse => eventResponse,
+        return result.Match<IActionResult>(
+            eventResponse => Ok(eventResponse),
             _ => NotFound());
     }
 }

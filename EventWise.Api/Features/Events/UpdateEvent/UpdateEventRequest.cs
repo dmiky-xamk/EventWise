@@ -1,13 +1,14 @@
 ﻿using FluentValidation;
 
-namespace EventWise.Api.Features.Events.CreateEvent;
+namespace EventWise.Api.Features.Events.UpdateEvent;
 
-public record CreateEventRequest(string Name, string Description, string Address, string City, DateTime StartDate,
+public sealed record UpdateEventRequest(string Name, string Description, string Address, string City,
+    DateTime StartDate,
     DateTime EndDate);
 
-public class CreateEventRequestValidator : AbstractValidator<CreateEventRequest>
+public sealed class UpdateEventRequestValidator : AbstractValidator<UpdateEventRequest>
 {
-    public CreateEventRequestValidator()
+    public UpdateEventRequestValidator()
     {
         RuleFor(x => x.Name).EventName();
         RuleFor(x => x.Description).EventDescription();

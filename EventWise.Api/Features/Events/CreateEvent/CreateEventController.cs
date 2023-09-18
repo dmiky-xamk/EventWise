@@ -1,13 +1,11 @@
 ﻿using EventWise.Api.Features.Events.GetEvent;
-using FluentValidation.Results;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace EventWise.Api.Features.Events.CreateEvent;
 
-public sealed class CreateEventController : ControllerBase
+public sealed class CreateEventController : EventControllerBase
 {
     private readonly ISender _sender;
 
@@ -26,21 +24,12 @@ public sealed class CreateEventController : ControllerBase
             CreatedAtActionResponse,
             validationResult => ValidationProblem(CreateModelStateErrorsFrom(validationResult)));
     }
-    
-    private ModelStateDictionary CreateModelStateErrorsFrom(ValidationResult validationResult)
-    {
-        foreach (var error in validationResult.Errors)
-        {
-            ModelState.AddModelError(error.PropertyName, error.ErrorMessage);
-        }
-
-        return ModelState;
-    }
 
     private CreatedAtActionResult CreatedAtActionResponse(CreateEventResponse createdEventResponse)
     {
         var actionName = nameof(GetEventController.GetEvent);
+        var controllerName = nameof(GetEventController).Replace("Controller", "");
         
-        return CreatedAtAction(actionName, new { publicId = createdEventResponse.Event.PublicId }, createdEventResponse);
+        return CreatedAtAction(actionName, controllerName, new { publicId = createdEventResponse.Event.PublicId }, createdEventResponse);
     }
 }
