@@ -1,4 +1,6 @@
 ﻿using EventWise.Api.Features.Events.Domain;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace EventWise.Api.Persistence;
 
@@ -8,36 +10,38 @@ public static class DbInitializer
     {
         using var scope = app.ApplicationServices.CreateScope();
         using var context = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var userManager = scope.ServiceProvider.GetRequiredService<UserManager<AppUser>>();
         
-        SeedDb(context);
+        SeedDb(context, userManager);
         
         return app;
     }
 
-    private static void SeedDb(AppDbContext context)
+    private static void SeedDb(AppDbContext context, UserManager<AppUser> userManager)
     {
-        context.Database.EnsureCreated();
+        context.Database.Migrate();
         
-        if (context.Events.Any())
+        if (context.Events.Any() || context.Users.Any())
             return;
         
         var users = new[]
         {
             new AppUser
             {
-                Id = Guid.NewGuid().ToString(),
                 UserName = "user1",
                 Email = "user1@eventwise.com"
             },
             new AppUser
             {
-                Id = Guid.NewGuid().ToString(),
                 UserName = "user2",
                 Email = "user2@eventwise.com"
             }
         };
 
-        context.Users.AddRange(users);
+        foreach (var user in users)
+        {
+            userManager.CreateAsync(user, "Testi1").Wait();
+        }
         
         var events = new List<EventEntity>
         {
