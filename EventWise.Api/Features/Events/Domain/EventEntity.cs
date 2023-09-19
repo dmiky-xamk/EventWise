@@ -14,6 +14,6 @@ public sealed class EventEntity
     public required DateTime StartDate { get; set; }
     public required DateTime EndDate { get; set; }
     public bool IsCancelled { get; set; } = false;
-    public required IEnumerable<EventParticipantEntity> Participants { get; init; } =
+    public required ICollection<EventParticipantEntity> Participants { get; init; } =
         new List<EventParticipantEntity>();
 }
