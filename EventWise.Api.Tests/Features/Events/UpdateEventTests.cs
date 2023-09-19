@@ -55,7 +55,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
     public async Task UpdateEvent_ReturnsNotFound_WhenEventDoesNotExist()
     {
         // Arrange
-        await using var context = TestDbFixture.CreateContext();
+        await using var context = TestDbFixture.CreateContextWithTransaction();
         TestHelpers.CreateUser(_fixture, _mockUserManager);
         var expected = _fixture.Build<UpdateEventRequest>()
             .With(x => x.StartDate, DateTime.Now.AddDays(1))
@@ -68,6 +68,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
         var actual =
             await sut.Handle(new UpdateEvent.Command { Event = expected, PublicId = _fixture.Create<string>() },
                 default);
+        context.ChangeTracker.Clear();
 
         // Assert
         actual.Value.Should().BeOfType<NotFound>();
@@ -77,7 +78,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
     public async Task UpdateEvent_ReturnsNotFound_WhenUserIsNotHost()
     {
         // Arrange
-        await using var context = TestDbFixture.CreateContext();
+        await using var context = TestDbFixture.CreateContextWithTransaction();
         var user = TestHelpers.CreateUser(_fixture, _mockUserManager);
         var eventEntity = TestHelpers.CreateEventAsParticipant(_fixture, context, user);
         var request = _fixture.Build<UpdateEventRequest>()
@@ -90,6 +91,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
         // Act
         var actual = await sut.Handle(new UpdateEvent.Command { Event = request, PublicId = eventEntity.PublicId },
             default);
+        context.ChangeTracker.Clear();
 
         // Assert
         actual.Value.Should().BeOfType<NotFound>();
@@ -99,7 +101,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
     public async Task UpdateEvent_ReturnsError_WhenValidationFails()
     {
         // Arrange
-        await using var context = TestDbFixture.CreateContext();
+        await using var context = TestDbFixture.CreateContextWithTransaction();
         TestHelpers.CreateUser(_fixture, _mockUserManager);
         var request = _fixture.Build<UpdateEventRequest>()
             .With(x => x.Name, string.Empty)
@@ -110,6 +112,7 @@ public sealed class UpdateEventTests : IClassFixture<TestDatabaseFixture>
         // Act
         var actual = await sut.Handle(new UpdateEvent.Command { Event = request, PublicId = _fixture.Create<string>() },
             default);
+        context.ChangeTracker.Clear();
 
         // Assert
         actual.Value.Should().BeOfType<ValidationResult>();
