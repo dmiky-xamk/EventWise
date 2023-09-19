@@ -35,12 +35,6 @@ public static class TestHelpers
         return user;
     }
 
-    public static EventEntity CreateEventAsHost(this IFixture fixture, AppUser user)
-        => fixture.CreateEventWith(user, true);
-    
-    public static EventEntity CreateEventAsParticipant(this IFixture fixture, AppUser user)
-        => fixture.CreateEventWith(user, false);
-
     public static EventEntity CreateEventAsParticipant(IFixture fixture, AppDbContext context, AppUser user)
     {
         var eventEntity = fixture.CreateEventWith(user, false);
@@ -49,7 +43,7 @@ public static class TestHelpers
         
         return eventEntity;
     }
-    
+
     public static EventEntity CreateEventAsHost(IFixture fixture, AppDbContext context, AppUser user)
     {
         var eventEntity = fixture.CreateEventWith(user, true);
@@ -58,7 +52,7 @@ public static class TestHelpers
         
         return eventEntity;
     }
-    
+
     private static EventEntity CreateEventWith(this IFixture fixture, AppUser user, bool isHost)
         => fixture.Build<EventEntity>()
             .With(x => x.Participants, new List<EventParticipantEntity>
@@ -66,11 +60,5 @@ public static class TestHelpers
                 new() { AppUser = user, IsHost = isHost }
             })
             .With(x => x.IsCancelled, false)
-            .Create(); 
-    
-    public static Task AddAndSaveEvent(this AppDbContext context, EventEntity eventEntity)
-    {
-        context.Events.Add(eventEntity);
-        return context.SaveChangesAsync();
-    }
+            .Create();
 }
